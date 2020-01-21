@@ -27,10 +27,7 @@ int handle_input(char *input, int *go_on)
 
     for (; input[index] == ' '; index++);
     if (my_strcmp(&(input[index]), "exit") == 0) {
-        index += 5;
-        for (; input[index] == ' '; index++);
-        if (input[index] == 0)
-            *go_on = 0;
+        *go_on = 0;
     }
     return (0);
 }
