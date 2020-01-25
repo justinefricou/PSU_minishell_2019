@@ -57,10 +57,12 @@ int is_command(char *command, char *input)
     int length_command = 0;
 
     for (; command[length_command] != 0; length_command++);
-    if (my_strcmp(command, input) == 0) {
-        input += length_command;
-        if (*input == 0 || *input == ' ')
-            return (1);
+    for (int i = 0; i < length_command; i++) {
+        if (command[i] != input[i])
+            return (0);
     }
-    return (0);
+    input += length_command;
+    if (*input != 0 && *input != ' ')
+        return (0);
+    return (1);
 }
