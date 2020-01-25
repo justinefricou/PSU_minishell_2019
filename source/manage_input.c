@@ -21,13 +21,27 @@ int get_input(char **input)
     return (0);
 }
 
-int handle_input(char *input, int *go_on)
+int handle_input(char *input, char **env, int *go_on)
 {
-    int index = 0;
-
-    for (; input[index] == ' '; index++);
-    if (my_strcmp(&(input[index]), "exit") == 0) {
+    for (; *input == ' '; input++);
+    if (is_command("exit", input))
         *go_on = 0;
+    if (is_command("cd", input))
+        launch_cd(input);
+    else if (handle_env_related_builtins(input, env) == 84)
+        return (84);
+    return (0);
+}
+
+int is_command(char *command, char *input)
+{
+    int length_command = 0;
+
+    for (; command[length_command] != 0; length_command++);
+    if (my_strcmp(command, input) == 0) {
+        input += length_command;
+        if (*input == 0 || *input == ' ')
+            return (1);
     }
     return (0);
 }
