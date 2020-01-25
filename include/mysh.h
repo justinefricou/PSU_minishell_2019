@@ -27,5 +27,6 @@ void launch_env(char **env);
 
 // my_tools.c
 int my_strcmp(char *s1, char *s2);
+void my_put_str(char *str);
 
 #endif // DEF_MYSH

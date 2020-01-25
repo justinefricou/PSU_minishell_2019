@@ -17,3 +17,11 @@ int my_strcmp(char *s1, char *s2)
     }
     return (0);
 }
+
+void my_put_str(char *str)
+{
+    int length = 0;
+
+    for (; str[length] != 0; length++);
+    write(1, str, length);
+}

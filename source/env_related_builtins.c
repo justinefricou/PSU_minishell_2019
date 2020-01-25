@@ -24,5 +24,5 @@ int handle_env_related_builtins(char *input, char **env)
 void launch_env(char **env)
 {
     for (int i = 0; env[i] != 0; i++)
-        printf("%s\n", env[i]);
+        my_put_str(env[i]);
 }
