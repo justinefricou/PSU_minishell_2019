@@ -8,7 +8,8 @@
 NAME	=	mysh
 
 SRC	=	source/main.c\
-		source/manage_input.c\
+		source/env_chained_list.c\
+		source/main_loop.c\
 		source/launch_cd.c\
 		source/env_related_builtins.c\
 		source/my_tools.c
