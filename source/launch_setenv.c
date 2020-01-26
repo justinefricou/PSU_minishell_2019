@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2020
 ** launch_setenv.c
 ** File description:
-** mysh (minishell1) : adds/replaces a variable to/in the environment
+** mysh (minishell1) : adds (or replaces) a variable to the environment
 */
 
 #include "mysh.h"
