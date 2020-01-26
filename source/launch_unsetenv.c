@@ -10,23 +10,23 @@
 int launch_unsetenv(env_var **env_vars, char *input)
 {
     char *name = NULL;
-    int name_len = 0;
+    int length = 0;
 
     input += 8;
-    for (; *input == ' '; input++);
+    for (; is_separator(*input); input++);
     while (*input != 0) {
-        name_len = 0;
-        for (; input[name_len] != ' ' && input[name_len] != 0; name_len++);
-        name = malloc(sizeof(char) * (name_len + 1));
+        length = 0;
+        for (; !is_separator(input[length]) && input[length] != 0; length++);
+        name = malloc(sizeof(char) * (length + 1));
         if (name == NULL)
             return (84);
-        for (int i = 0; i < name_len; i++, input++)
+        for (int i = 0; i < length; i++, input++)
             name[i] = *input;
-        name[name_len] = 0;
+        name[length] = 0;
         remove_variable_from_env(name, env_vars);
         free(name);
         input++;
-        for (; *input == ' '; input++);
+        for (; is_separator(*input); input++);
     }
     return (0);
 }

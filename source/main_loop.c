@@ -42,7 +42,7 @@ int get_input(char **input)
 
 int handle_input(char *input, env_var **env_vars, int *go_on)
 {
-    for (; *input == ' '; input++);
+    for (; is_separator(*input); input++);
     if (is_command("exit", input))
         *go_on = 0;
     if (is_command("cd", input))
@@ -62,7 +62,7 @@ int is_command(char *command, char *input)
             return (0);
     }
     input += length_command;
-    if (*input != 0 && *input != ' ')
+    if (*input != 0 && !is_separator(*input))
         return (0);
     return (1);
 }

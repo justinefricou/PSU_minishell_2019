@@ -51,5 +51,6 @@ void remove_variable_from_env(char *name, env_var **env_vars);
 // my_tools.c
 int my_strcmp(char *s1, char *s2);
 void my_put_str(char *str);
+int is_separator(char c);
 
 #endif // DEF_MYSH
