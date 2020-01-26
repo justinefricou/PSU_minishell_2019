@@ -15,13 +15,15 @@
 
 typedef struct env_var env_var;
 struct env_var {
-    char *str;
+    char *name;
+    char *value;
     env_var *next;
 };
 
 // env_chained_list.c
 int get_env_chained_list(char **env, env_var **env_vars);
-int add_var_to_chained_list(char *var, env_var **list);
+int get_vars_name_and_value(char **name, char **value, char *var);
+int add_var_to_chained_list(char *name, char *value, env_var **list);
 void free_chained_list(env_var *list);
 
 // main_loop.c
