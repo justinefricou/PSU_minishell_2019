@@ -51,6 +51,9 @@ int replace_if_already_in_env(char *name, char *value, env_var *env_vars)
 {
     while (env_vars != NULL) {
         if (my_strcmp(env_vars->name, name) == 0) {
+            free(env_vars->name);
+            env_vars->name = name;
+            free(env_vars->value);
             env_vars->value = value;
             return (1);
         }
