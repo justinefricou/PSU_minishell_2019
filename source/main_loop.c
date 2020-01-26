@@ -7,7 +7,7 @@
 
 #include "mysh.h"
 
-int main_loop(env_var *env_vars)
+int main_loop(env_var **env_vars)
 {
     char *input = NULL;
     int go_on = 1;
@@ -40,7 +40,7 @@ int get_input(char **input)
     return (0);
 }
 
-int handle_input(char *input, env_var *env_vars, int *go_on)
+int handle_input(char *input, env_var **env_vars, int *go_on)
 {
     for (; *input == ' '; input++);
     if (is_command("exit", input))

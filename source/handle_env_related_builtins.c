@@ -7,17 +7,17 @@
 
 #include "mysh.h"
 
-int handle_env_related_builtins(char *input, env_var *env_vars)
+int handle_env_related_builtins(char *input, env_var **env_vars)
 {
     if (is_command("env", input))
-        launch_env(env_vars);
+        launch_env(*env_vars);
     if (is_command("setenv", input)) {
-        if (launch_setenv(env_vars, input) == 84)
+        if (launch_setenv(*env_vars, input) == 84)
             return (84);
-    } /*else if (is_command("unsetenv", input)) {
-        if (lauch_unsetenv() == 84)
+    } else if (is_command("unsetenv", input)) {
+        if (launch_unsetenv(env_vars, input) == 84)
             return (84);
-    }*/
+    }
     return (0);
 }
 

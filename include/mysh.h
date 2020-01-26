@@ -27,22 +27,26 @@ int add_var_to_chained_list(char *name, char *value, env_var **list);
 void free_chained_list(env_var *list);
 
 // main_loop.c
-int main_loop(env_var *env_vars);
+int main_loop(env_var **env_vars);
 int get_input(char **input);
-int handle_input(char *input, env_var *env_vars, int *go_on);
+int handle_input(char *input, env_var **env_vars, int *go_on);
 int is_command(char *command, char *input);
 
 // launch_cd.c
 void launch_cd(char *option);
 
 // handle_env_related_builtins.c
-int handle_env_related_builtins(char *input, env_var *env_vars);
+int handle_env_related_builtins(char *input, env_var **env_vars);
 void launch_env(env_var *env_vars);
 
 // launch_setenv.c
 int launch_setenv(env_var *env_vars, char *input);
 int get_var_name_and_value_from_input(char **name, char **value, char *input);
 int replace_if_already_in_env(char *name, char *value, env_var *env_vars);
+
+// launch_unsetenv.c
+int launch_unsetenv(env_var **env_vars, char *input);
+void remove_variable_from_env(char *name, env_var **env_vars);
 
 // my_tools.c
 int my_strcmp(char *s1, char *s2);
