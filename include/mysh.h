@@ -35,11 +35,14 @@ int is_command(char *command, char *input);
 // launch_cd.c
 void launch_cd(char *option);
 
-// env_related_builtins.c
+// handle_env_related_builtins.c
 int handle_env_related_builtins(char *input, env_var *env_vars);
 void launch_env(env_var *env_vars);
+
+// launch_setenv.c
 int launch_setenv(env_var *env_vars, char *input);
 int get_var_name_and_value_from_input(char **name, char **value, char *input);
+int replace_if_already_in_env(char *name, char *value, env_var *env_vars);
 
 // my_tools.c
 int my_strcmp(char *s1, char *s2);
