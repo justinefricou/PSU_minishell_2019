@@ -13,7 +13,7 @@ int get_env_chained_list(char **env, env_var **env_vars)
     char *value = NULL;
 
     for (; *env != NULL; env++) {
-        if (get_vars_name_and_value(&name, &value, *env) == 84) {
+        if (get_var_name_and_value_from_env(&name, &value, *env) == 84) {
             free_chained_list(*env_vars);
             return (84);
         }
@@ -25,7 +25,7 @@ int get_env_chained_list(char **env, env_var **env_vars)
     return (0);
 }
 
-int get_vars_name_and_value(char **name, char **value, char *var)
+int get_var_name_and_value_from_env(char **name, char **value, char *var)
 {
     int name_len = 0;
     int value_len = 0;

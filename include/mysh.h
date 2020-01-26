@@ -22,7 +22,7 @@ struct env_var {
 
 // env_chained_list.c
 int get_env_chained_list(char **env, env_var **env_vars);
-int get_vars_name_and_value(char **name, char **value, char *var);
+int get_var_name_and_value_from_env(char **name, char **value, char *var);
 int add_var_to_chained_list(char *name, char *value, env_var **list);
 void free_chained_list(env_var *list);
 
@@ -38,6 +38,8 @@ void launch_cd(char *option);
 // env_related_builtins.c
 int handle_env_related_builtins(char *input, env_var *env_vars);
 void launch_env(env_var *env_vars);
+int launch_setenv(env_var *env_vars, char *input);
+int get_var_name_and_value_from_input(char **name, char **value, char *input);
 
 // my_tools.c
 int my_strcmp(char *s1, char *s2);
