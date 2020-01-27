@@ -42,6 +42,8 @@ void launch_env(env_var *env_vars);
 // launch_setenv.c
 int launch_setenv(env_var *env_vars, char *input);
 int get_var_name_and_value_from_input(char **name, char **value, char *input);
+int get_var_value_from_input(char **value, char **input);
+int get_var_name_from_input(char **name, char **input);
 int replace_if_already_in_env(char *name, char *value, env_var *env_vars);
 
 // launch_unsetenv.c

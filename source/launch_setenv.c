@@ -25,25 +25,41 @@ int launch_setenv(env_var *env_vars, char *input)
 
 int get_var_name_and_value_from_input(char **name, char **value, char *input)
 {
-    int name_len = 0, val_len = 0;
-
-    for (; !is_separator(input[name_len]) && input[name_len] != 0; name_len++);
-    *name = malloc(sizeof(char) * (name_len + 1));
-    if (*name == NULL)
+    if (get_var_name_from_input(name, &input) == 84)
         return (84);
-    for (int i = 0; i < name_len; i++, input++)
-        (*name)[i] = *input;
-    (*name)[name_len] = 0;
     for (; is_separator(*input); input++);
-    for (; !is_separator(input[val_len]) && input[val_len] != 0; val_len++);
-    *value = malloc(sizeof(char) * (val_len + 1));
-    if (*value == NULL) {
+    if (get_var_value_from_input(value, &input) == 84) {
         free(*name);
         return (84);
     }
-    for (int i = 0; i < val_len; i++, input++)
-        (*value)[i] = *input;
-    (*value)[val_len] = 0;
+    return (0);
+}
+
+int get_var_name_from_input(char **name, char **input)
+{
+    int length = 0;
+
+    for (; !is_separator((*input)[length]) && (*input)[length] != 0; length++);
+    *name = malloc(sizeof(char) * (length + 1));
+    if (*name == NULL)
+        return (84);
+    for (int i = 0; i < length; i++, (*input)++)
+        (*name)[i] = **input;
+    (*name)[length] = 0;
+    return (0);
+}
+
+int get_var_value_from_input(char **value, char **input)
+{
+    int length = 0;
+
+    for (; !is_separator((*input)[length]) && (*input)[length] != 0; length++);
+    *value = malloc(sizeof(char) * (length + 1));
+    if (*value == NULL)
+        return (84);
+    for (int i = 0; i < length; i++, (*input)++)
+        (*value)[i] = **input;
+    (*value)[length] = 0;
     return (0);
 }
 
