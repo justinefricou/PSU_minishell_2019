@@ -59,7 +59,7 @@ int launch_cd_previous_dir(char *input, char *previous_dir)
             chdir(previous_dir);
             return (1);
         } else
-            write(1, ": No such file or directory.\n", 29);
+            write(2, ": No such file or directory.\n", 29);
     }
     return (0);
 }
