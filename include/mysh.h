@@ -20,6 +20,11 @@ struct env_var {
     env_var *next;
 };
 
+typedef struct exit_status {
+    int go_on;
+    u_int8_t value;
+} exit_status;
+
 // env_chained_list.c
 int get_env_chained_list(char **env, env_var **env_vars);
 int get_var_name_and_value_from_env(char **name, char **value, char *var);
@@ -27,10 +32,11 @@ int add_var_to_chained_list(char *name, char *value, env_var **list);
 void free_chained_list(env_var *list);
 
 // main_loop.c
-int main_loop(env_var **env_vars);
-int get_input(char **input);
-int handle_input(char *input, env_var **env_vars, char **prev_dir, int *go_on);
+int main_loop(env_var **env_vars, exit_status *exit_val);
+int get_input(char **input, exit_status *exit_val);
+int handle_input(char *input, env_var **vars, char **prev_dir, exit_status *ex);
 int is_command(char *command, char *input);
+int my_exit(exit_status *exit_val, char *input);
 
 // handle_env_related_builtins.c
 int handle_env_related_builtins(char *input, env_var **env_vars);
@@ -63,5 +69,7 @@ void display_error_message_chdir(void);
 int my_strcmp(char *s1, char *s2);
 void my_put_str(char *str);
 int is_separator(char c);
+int is_int(char *str);
+int my_get_nbr(char *s);
 
 #endif // DEF_MYSH

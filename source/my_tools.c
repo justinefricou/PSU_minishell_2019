@@ -32,3 +32,29 @@ int is_separator(char c)
         return (1);
     return (0);
 }
+
+int is_int(char *str)
+{
+    int i = 0;
+
+    if (str[i] == '-' || str[i] == '+')
+        i++;
+    for ( ; str[i] != 0; i++) {
+        if (str[i] < '0' || '9' < str[i])
+            return (0);
+    }
+    return (1);
+}
+
+int my_get_nbr(char *s)
+{
+    int nbr = 0;
+    int i = 0;
+
+    for (; s[i] == '-' || s[i] == '+' || s[i] == '0'; i++);
+    for (; s[i] != 0 && !is_separator(s[i]); i++)
+        nbr = nbr * 10 + (s[i] - 48);
+    if (s[0] == '-')
+        nbr = nbr * (-1);
+    return (nbr);
+}
