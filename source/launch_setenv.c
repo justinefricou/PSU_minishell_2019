@@ -60,7 +60,7 @@ int get_var_value_from_input(char **value, char **input)
         for (; (*input)[len + 1] != **input && (*input)[len + 1] != 0; len++);
         (*input)++;
         if ((*input)[len] == 0) {
-            write(1, "Unmatched '\"'\n", 14);
+            write(2, "Unmatched '\"'\n", 14);
             return (1);
         }
     } else
