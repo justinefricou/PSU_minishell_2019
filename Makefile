@@ -14,6 +14,7 @@ SRC	=	source/main.c\
 		source/launch_setenv.c\
 		source/launch_unsetenv.c\
 		source/launch_cd.c\
+		source/launch_cd_with_path.c\
 		source/my_tools.c
 
 OBJ	=	$(SRC:.c=.o)

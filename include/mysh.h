@@ -50,8 +50,14 @@ void remove_variable_from_env(char *name, env_var **env_vars);
 // launch_cd.c
 int launch_cd(char *input, env_var *env_vars, char **previous_dir);
 int launch_cd_without_arg(char *input, env_var *env_vars);
-int launch_cd_previous_dir(char *input, char *previous_dir);
 char *get_home_path(env_var *env_vars);
+int launch_cd_previous_dir(char *input, char *previous_dir);
+void update_working_dir(char *current_dir, char **prev_dir, int return_val);
+
+// launch_cd_with_path.c
+int launch_cd_with_path(char *input);
+int get_path(char **path, char *input);
+void display_error_message_chdir(void);
 
 // my_tools.c
 int my_strcmp(char *s1, char *s2);

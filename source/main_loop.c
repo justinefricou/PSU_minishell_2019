@@ -50,9 +50,10 @@ int handle_input(char *input, env_var **env_vars, char **prev_dir, int *go_on)
         *go_on = 0;
         return (-1);
     }
-    if (is_command("cd", input))
-        launch_cd(input, *env_vars, prev_dir);
-    else if (handle_env_related_builtins(input, env_vars) == 84)
+    if (is_command("cd", input)) {
+        if (launch_cd(input, *env_vars, prev_dir) == 84)
+            return (84);
+    } else if (handle_env_related_builtins(input, env_vars) == 84)
         return (84);
     return (0);
 }
