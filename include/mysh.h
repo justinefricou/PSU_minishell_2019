@@ -29,11 +29,8 @@ void free_chained_list(env_var *list);
 // main_loop.c
 int main_loop(env_var **env_vars);
 int get_input(char **input);
-int handle_input(char *input, env_var **env_vars, int *go_on);
+int handle_input(char *input, env_var **env_vars, char **prev_dir, int *go_on);
 int is_command(char *command, char *input);
-
-// launch_cd.c
-void launch_cd(char *option);
 
 // handle_env_related_builtins.c
 int handle_env_related_builtins(char *input, env_var **env_vars);
@@ -49,6 +46,12 @@ int replace_if_already_in_env(char *name, char *value, env_var *env_vars);
 // launch_unsetenv.c
 int launch_unsetenv(env_var **env_vars, char *input);
 void remove_variable_from_env(char *name, env_var **env_vars);
+
+// launch_cd.c
+int launch_cd(char *input, env_var *env_vars, char **previous_dir);
+int launch_cd_without_arg(char *input, env_var *env_vars);
+int launch_cd_previous_dir(char *input, char *previous_dir);
+char *get_home_path(env_var *env_vars);
 
 // my_tools.c
 int my_strcmp(char *s1, char *s2);

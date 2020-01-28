@@ -61,7 +61,7 @@ int get_var_value_from_input(char **value, char **input)
         (*input)++;
         if ((*input)[len] == 0) {
             write(1, "Unmatched '\"'\n", 14);
-            return (1); //
+            return (1);
         }
     } else
         for (; !is_separator((*input)[len]) && (*input)[len] != 0; len++);

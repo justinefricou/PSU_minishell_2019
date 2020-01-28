@@ -10,6 +10,7 @@
 int main_loop(env_var **env_vars)
 {
     char *input = NULL;
+    char *previous_dir = NULL;
     int go_on = 1;
     int val_return = 0;
 
@@ -18,11 +19,13 @@ int main_loop(env_var **env_vars)
         write(1, "$> ", 3);
         if (get_input(&input) == -1)
             return (-1);
-        val_return = handle_input(input, env_vars, &go_on);
+        val_return = handle_input(input, env_vars, &previous_dir, &go_on);
         if (val_return != 0)
             go_on = 0;
         free(input);
     }
+    if (previous_dir != NULL)
+        free(previous_dir);
     return (val_return);
 }
 
@@ -40,7 +43,7 @@ int get_input(char **input)
     return (0);
 }
 
-int handle_input(char *input, env_var **env_vars, int *go_on)
+int handle_input(char *input, env_var **env_vars, char **prev_dir, int *go_on)
 {
     for (; is_separator(*input); input++);
     if (is_command("exit", input)) {
@@ -48,7 +51,7 @@ int handle_input(char *input, env_var **env_vars, int *go_on)
         return (-1);
     }
     if (is_command("cd", input))
-        launch_cd(input);
+        launch_cd(input, *env_vars, prev_dir);
     else if (handle_env_related_builtins(input, env_vars) == 84)
         return (84);
     return (0);
