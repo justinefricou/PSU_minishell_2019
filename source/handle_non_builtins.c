@@ -23,7 +23,7 @@ int handle_non_builtins(char *input, env_var *env_vars)
         free(args);
         return (84);
     }
-    //execute_program(args, env_array);
+    execute_program(args, env_array);
     for (int i = 0; args[i] != NULL; i++) // faire comme free_string_array
         free(args[i]);
     free(args);
