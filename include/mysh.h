@@ -12,6 +12,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <signal.h>
+#include <sys/wait.h>
 
 typedef struct env_var env_var;
 struct env_var {
@@ -70,10 +71,18 @@ void remove_variable_from_env(char *name, env_var **env_vars);
 
 // handle_non_builtins.c
 int handle_non_builtins(char *input, env_var *env_vars);
+int get_env_array(char ***env_array, env_var *env_vars);
+int add_var_to_env_array(env_var *env_vars, char **var_str);
+void free_string_array(char **string_arr, int last_string);
+
+// get_args_program.c
 int get_args(char ***args, char *input);
 int get_nbr_of_args(char *input);
 int get_next_arg(char **arg, char *input, int *i);
 void free_previous_args(char **args, int end);
+
+// execute_program.c
+int execute_program(char **args, char **env_array);
 
 // my_tools.c
 int my_strcmp(char *s1, char *s2);

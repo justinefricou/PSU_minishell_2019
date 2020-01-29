@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2020
 ** handle_non_builtins.c
 ** File description:
-** mysh (minishell1) : executes a program if it is found
+** mysh (minishell1) : gets the arguments and executes a program if it is found
 */
 
 #include "mysh.h"
@@ -10,70 +10,73 @@
 int handle_non_builtins(char *input, env_var *env_vars)
 {
     char **args = NULL;
+    char **env_array = NULL;
 
     for (; is_separator(*input); input++);
     if (*input == 0)
         return (0);
     if (get_args(&args, input) == 84)
         return (84);
-    //execute_program(args, env_vars);
-    for (int i = 0; args[i] != NULL; i++)
+    if (get_env_array(&env_array, env_vars) == 84) {
+        for (int i = 0; args[i] != NULL; i++)  // faire comme free_string_array
+            free(args[i]);
+        free(args);
+        return (84);
+    }
+    //execute_program(args, env_array);
+    for (int i = 0; args[i] != NULL; i++) // faire comme free_string_array
         free(args[i]);
     free(args);
+    free_string_array(env_array, -1);
     return (0);
 }
 
-int get_args(char ***args, char *input)
+int get_env_array(char ***env_array, env_var *env_vars)
 {
-    int nbr_of_args = 0;
-    int i = 0;
+    int length_array = 0;
+    env_var *cp_pointer = env_vars;
 
-    nbr_of_args = get_nbr_of_args(input);
-    *args = malloc(sizeof(char *) * (nbr_of_args + 1));
-    if (*args == NULL)
+    for (; cp_pointer != NULL; length_array++, cp_pointer = cp_pointer->next);
+    *env_array = malloc(sizeof(char *) * (length_array + 1));
+    if (*env_array == NULL)
         return (84);
-    for (int j = 0; j < nbr_of_args; j++) {
-        if (get_next_arg(&((*args)[j]), input, &i) == 84) {
-            free_previous_args(*args, j);
-            free(*args);
+    for (int i = 0; i < length_array; i++, env_vars = env_vars->next) {
+        if (add_var_to_env_array(env_vars, &((*env_array)[i])) == 84) {
+            free_string_array(*env_array, i - 1);
             return (84);
         }
     }
-    (*args)[nbr_of_args] = NULL;
+    (*env_array)[length_array] = NULL;
     return (0);
 }
 
-int get_nbr_of_args(char *input)
+int add_var_to_env_array(env_var *env_vars, char **var_str)
 {
-    int nbr_of_args = 0;
+    int length_name = 0;
+    int length_value = 0;
 
-    for (int i = 0; input[i] != 0; nbr_of_args++) {
-        for (; is_separator(input[i]); i++);
-        for (; !is_separator(input[i]) && input[i] != 0; i++);
-        for (; is_separator(input[i]); i++);
-    }
-    return (nbr_of_args);
-}
-
-int get_next_arg(char **arg, char *input, int *i)
-{
-    int len = 0;
-    int i_s = *i;
-
-    for (; is_separator(input[i_s]); i_s++, (*i)++);
-    for (; !is_separator(input[i_s + len]) && input[i_s + len] != 0; (*i)++)
-        len++;
-    *arg = malloc(sizeof(char) * (len + 1));
-    if (arg == NULL)
+    for (; (env_vars->name)[length_name] != 0; length_name++);
+    for (; (env_vars->value)[length_value] != 0; length_value++);
+    *var_str = malloc(sizeof(char) * (length_name + length_value + 2));
+    if (*var_str == NULL)
         return (84);
-    for (int j = 0; j < len; j++)
-        (*arg)[j] = input[i_s + j];
-    (*arg)[len] = 0;
+    for (int i = 0; (env_vars->name)[i] != 0; i++)
+        (*var_str)[i] = (env_vars->name)[i];
+    (*var_str)[length_name] = '=';
+    for (int i = 0; (env_vars->value)[i] != 0; i++)
+        (*var_str)[i + length_name + 1] = (env_vars->value)[i];
+    (*var_str)[length_name + length_value + 1] = 0;
     return (0);
 }
 
-void free_previous_args(char **args, int end)
+void free_string_array(char **string_arr, int last_string)
 {
-    for (int i = 0; i < end; i++)
-        free(args[i]);
+    if (last_string == -1) {
+        for (int i = 0; string_arr[i] != NULL; i++)
+            free(string_arr[i]);
+    } else {
+        for (int i = 0; i <= last_string; i++)
+            free(string_arr[i]);
+    }
+    free(string_arr);
 }
