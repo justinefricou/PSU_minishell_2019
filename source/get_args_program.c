@@ -18,8 +18,7 @@ int get_args(char ***args, char *input)
         return (84);
     for (int j = 0; j < nbr_of_args; j++) {
         if (get_next_arg(&((*args)[j]), input, &i) == 84) {
-            free_previous_args(*args, j);
-            free(*args);
+            free_string_array(*args, j - 1);
             return (84);
         }
     }
@@ -54,10 +53,4 @@ int get_next_arg(char **arg, char *input, int *i)
         (*arg)[j] = input[i_s + j];
     (*arg)[len] = 0;
     return (0);
-}
-
-void free_previous_args(char **args, int end)
-{
-    for (int i = 0; i < end; i++)
-        free(args[i]);
 }
