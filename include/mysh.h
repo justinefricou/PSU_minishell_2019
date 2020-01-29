@@ -36,7 +36,22 @@ int main_loop(env_var **env_vars, exit_status *exit_val);
 int get_input(char **input, exit_status *exit_val);
 int handle_input(char *input, env_var **vars, char **prev_dir, exit_status *ex);
 int is_command(char *command, char *input);
+int is_a_command(char *input);
+
+// my_exit.c
 int my_exit(exit_status *exit_val, char *input);
+
+// launch_cd.c
+int launch_cd(char *input, env_var *env_vars, char **previous_dir);
+int launch_cd_without_arg(char *input, env_var *env_vars);
+char *get_home_path(env_var *env_vars);
+int launch_cd_previous_dir(char *input, char *previous_dir);
+void update_working_dir(char *current_dir, char **prev_dir, int return_val);
+
+// launch_cd_with_path.c
+int launch_cd_with_path(char *input);
+int get_path(char **path, char *input);
+void display_error_message_chdir(void);
 
 // handle_env_related_builtins.c
 int handle_env_related_builtins(char *input, env_var **env_vars);
@@ -52,18 +67,6 @@ int replace_if_already_in_env(char *name, char *value, env_var *env_vars);
 // launch_unsetenv.c
 int launch_unsetenv(env_var **env_vars, char *input);
 void remove_variable_from_env(char *name, env_var **env_vars);
-
-// launch_cd.c
-int launch_cd(char *input, env_var *env_vars, char **previous_dir);
-int launch_cd_without_arg(char *input, env_var *env_vars);
-char *get_home_path(env_var *env_vars);
-int launch_cd_previous_dir(char *input, char *previous_dir);
-void update_working_dir(char *current_dir, char **prev_dir, int return_val);
-
-// launch_cd_with_path.c
-int launch_cd_with_path(char *input);
-int get_path(char **path, char *input);
-void display_error_message_chdir(void);
 
 // my_tools.c
 int my_strcmp(char *s1, char *s2);

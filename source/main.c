@@ -17,14 +17,10 @@ int main(int argc, char **argv, char **env)
         return (84);
     if (get_env_chained_list(env, &env_vars_list) == 84)
         return (84);
-    switch (main_loop(&env_vars_list, &exit_val)) {
-    case -1 :
+    return_val = main_loop(&env_vars_list, &exit_val);
+    if (return_val == -1) {
         write(1, "exit\n", 5);
         return_val = exit_val.value;
-        break;
-    case 84 :
-        return_val = 84;
-        break;
     }
     free_chained_list(env_vars_list);
     return (return_val);

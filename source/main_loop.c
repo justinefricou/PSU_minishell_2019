@@ -46,16 +46,20 @@ int get_input(char **input, exit_status *exit_val)
 
 int handle_input(char *input, env_var **vars, char **prev_dir, exit_status *ex)
 {
+    int return_val = 0;
+
     for (; is_separator(*input); input++);
+    if (handle_env_related_builtins(input, vars) == 84)
+        return (84);
     if (is_command("exit", input)) {
         if (my_exit(ex, input) == 0)
             return (-1);
-    }
-    if (is_command("cd", input)) {
+    } else if (is_command("cd", input)) {
         if (launch_cd(input, *vars, prev_dir) == 84)
             return (84);
-    } else if (handle_env_related_builtins(input, vars) == 84)
-        return (84);
+    }
+    if (!is_a_command(input))
+        execute_program(input, env_vars); // bootstrap
     return (0);
 }
 
@@ -74,23 +78,13 @@ int is_command(char *command, char *input)
     return (1);
 }
 
-int my_exit(exit_status *exit_val, char *input)
+int is_a_command(char *input)
 {
-    input += 4;
-    for (; is_separator(*input); input++);
-    if (*input == 0) {
-        exit_val->go_on = 0;
-        exit_val->value = 0;
-        return (0);
+    char *commands[] = {"exit", "cd", "env", "setenv", "unsetenv"};
+
+    for (int i = 0; i < 5; i++) {
+        if (is_command(commands[i], input))
+            return (1);
     }
-    if (!('0' <= *input && *input <= '9') && *input != '-' && *input != '+') {
-        write(2, "exit: Expression Syntax.\n", 25);
-        return (-1);
-    } else if (!is_int(input)) {
-        write(2, "exit: Badly formed number.\n", 27);
-        return (-1);
-    }
-    exit_val->go_on = 0;
-    exit_val->value = my_get_nbr(input);
     return (0);
 }
