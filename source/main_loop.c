@@ -56,8 +56,10 @@ int handle_input(char *input, env_var **vars, char **prev_dir, exit_status *ex)
         if (launch_cd(input, *vars, prev_dir) == 84)
             return (84);
     }
-    //if (!is_a_command(input))
-        //execute_program(input, vars); // bootstrap
+    if (!is_a_command(input)) {
+        if (handle_non_builtins(input, *vars) == 84)
+            return (84);
+    }
     return (0);
 }
 

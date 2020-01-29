@@ -68,6 +68,13 @@ int replace_if_already_in_env(char *name, char *value, env_var *env_vars);
 int launch_unsetenv(env_var **env_vars, char *input);
 void remove_variable_from_env(char *name, env_var **env_vars);
 
+// handle_non_builtins.c
+int handle_non_builtins(char *input, env_var *env_vars);
+int get_args(char ***args, char *input);
+int get_nbr_of_args(char *input);
+int get_next_arg(char **arg, char *input, int *i);
+void free_previous_args(char **args, int end);
+
 // my_tools.c
 int my_strcmp(char *s1, char *s2);
 void my_put_str(char *str);
