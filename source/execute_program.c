@@ -11,11 +11,14 @@ int execute_program(char **args, char **env_array)
 {
     int wstatus = 0;
     int return_fork = 0;
+    pid_t pid = 0;
 
     return_fork = fork();
     if (return_fork == 0) {
-        if (execve(args[0], args, env_array) == -1) // afficher message si erreur
-            return (84);
+        if (execve(args[0], args, env_array) == -1) { // afficher message si erreur ?
+            pid = getpid();
+            kill(pid, SIGKILL);
+        }
     } else if (return_fork > 0) {
         if (wait(&wstatus) == -1)
             return (84);
