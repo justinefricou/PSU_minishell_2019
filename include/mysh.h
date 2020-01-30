@@ -77,10 +77,16 @@ int add_var_to_env_array(env_var *env_vars, char **var_str);
 void free_string_array(char **string_arr, int last_string);
 
 // get_args_program.c
-int get_args(char ***args, char *input);
+int get_args(char ***args, char *input, env_var *env_vars);
 int get_nbr_of_args(char *input);
 int get_next_arg(char **arg, char *input, int *i);
-void free_previous_args(char **args, int end);
+int get_path_program(char **args, env_var *env_vars);
+
+// go_through_path.c
+int find_program_in_path(char *argv0, char **path_program, env_var *env_vars);
+int get_path_from_env(char **path, env_var *env_vars);
+int get_next_path(char **next_path, char *argv0, char **path);
+int my_strcat(char *str1, char *str2, char **final_str);
 
 // execute_program.c
 int execute_program(char **args, char **env_array);

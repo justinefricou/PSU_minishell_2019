@@ -7,7 +7,7 @@
 
 #include "mysh.h"
 
-int get_args(char ***args, char *input)
+int get_args(char ***args, char *input, env_var *env_vars)
 {
     int nbr_of_args = 0;
     int i = 0;
@@ -23,7 +23,11 @@ int get_args(char ***args, char *input)
         }
     }
     (*args)[nbr_of_args] = NULL;
-    return (0);
+    if (!get_path_program(*args, env_vars)) {
+        free_string_array(*args, -1);
+        return (0);
+    }
+    return (1);
 }
 
 int get_nbr_of_args(char *input)
@@ -53,4 +57,27 @@ int get_next_arg(char **arg, char *input, int *i)
         (*arg)[j] = input[i_s + j];
     (*arg)[len] = 0;
     return (0);
+}
+
+int get_path_program(char **args, env_var *env_vars)
+{
+    char *path_program = NULL;
+
+    if (access(args[0], F_OK) == 0)
+        path_program = args[0];
+    else if (!find_program_in_path(args[0], &path_program, env_vars)) {
+        my_put_str(args[0]);
+        write(2, ": Command not found.\n", 21);
+        return (0);
+    }
+    if (access(path_program, X_OK) != 0) {
+        my_put_str(args[0]);
+        write(2, ": Permission denied.\n", 21);
+        return (0);
+    }
+    if (args[0] != path_program) {
+        free(args[0]);
+        args[0] = path_program;
+    }
+    return (1);
 }

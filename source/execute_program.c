@@ -20,7 +20,7 @@ int execute_program(char **args, char **env_array)
             kill(pid, SIGKILL);
         }
     } else if (return_fork > 0) {
-        if (wait(&wstatus) == -1)
+        if (wait(&wstatus) == -1) // waitpid
             return (84);
         /*if (WIFEXITED(wstatus))
             write(1, "OK\n", 3);

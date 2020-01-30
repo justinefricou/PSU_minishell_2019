@@ -11,12 +11,14 @@ int handle_non_builtins(char *input, env_var *env_vars)
 {
     char **args = NULL;
     char **env_array = NULL;
+    int return_val = 1;
 
     for (; is_separator(*input); input++);
     if (*input == 0)
         return (0);
-    if (get_args(&args, input) == 84)
-        return (84);
+    return_val = get_args(&args, input, env_vars);
+    if (return_val != 1)
+        return (return_val);
     if (get_env_array(&env_array, env_vars) == 84) {
         free_string_array(args, -1);
         return (84);
@@ -24,7 +26,7 @@ int handle_non_builtins(char *input, env_var *env_vars)
     execute_program(args, env_array);
     free_string_array(args, -1);
     free_string_array(env_array, -1);
-    return (0);
+    return (return_val);
 }
 
 int get_env_array(char ***env_array, env_var *env_vars)
