@@ -66,13 +66,14 @@ int my_strcat(char *str1, char *str2, char **final_str)
 
     for (; str1[len_1] != 0; len_1++);
     for (; str2[len_2] != 0; len_2++);
-    *final_str = malloc(sizeof(char) * (len_1 + len_2 + 1));
+    *final_str = malloc(sizeof(char) * (len_1 + len_2 + 2));
     if (*final_str == NULL)
         return (84);
     for (int i = 0; i < len_1; i++)
         (*final_str)[i] = str1[i];
+    (*final_str)[len_1] = '/';
     for (int i = 0; i < len_2; i++)
-        (*final_str)[len_1 + i] = str2[i];
-    (*final_str)[len_1 + len_2] = 0;
+        (*final_str)[len_1 + i + 1] = str2[i];
+    (*final_str)[len_1 + len_2 + 1] = 0;
     return (0);
 }
