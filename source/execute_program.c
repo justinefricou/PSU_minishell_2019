@@ -15,7 +15,7 @@ int execute_program(char **args, char **env_array)
 
     return_fork = fork();
     if (return_fork == 0) {
-        if (execve(args[0], args, env_array) == -1) { // afficher message si erreur ?
+        if (execve(args[0], args, env_array) == -1) { // message si erreur ?
             pid = getpid();
             kill(pid, SIGKILL);
         }
