@@ -67,6 +67,7 @@ int replace_if_already_in_env(char *name, char *value, env_var *env_vars);
 
 // launch_unsetenv.c
 int launch_unsetenv(env_var **env_vars, char *input);
+int my_unsetenv(env_var **env_vars, char *input);
 void remove_variable_from_env(char *name, env_var **env_vars);
 
 // handle_non_builtins.c

@@ -33,7 +33,8 @@ int launch_cd_without_arg(char *input, env_var *env_vars)
     char *path = NULL;
 
     if (*input == 0) {
-        path = get_home_path(env_vars);
+        path = "/home";
+        //path = get_home_path(env_vars);
         if (path != NULL) {
             chdir(path);
             return (1);
@@ -42,7 +43,7 @@ int launch_cd_without_arg(char *input, env_var *env_vars)
     return (0);
 }
 
-char *get_home_path(env_var *env_vars)
+/*char *get_home_path(env_var *env_vars)
 {
     while (env_vars != NULL) {
         if (my_strcmp(env_vars->name, "HOME") == 0)
@@ -50,7 +51,7 @@ char *get_home_path(env_var *env_vars)
         env_vars = env_vars->next;
     }
     return (NULL);
-}
+}*/
 
 int launch_cd_previous_dir(char *input, char *previous_dir)
 {

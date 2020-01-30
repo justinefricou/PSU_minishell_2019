@@ -13,9 +13,11 @@ int handle_env_related_builtins(char *input, env_var **env_vars)
 
     if (is_command("env", input))
         launch_env(*env_vars);
-    if (is_command("setenv", input))
+    if (is_command("setenv", input)) {
         return_val = launch_setenv(*env_vars, input);
-    else if (is_command("unsetenv", input))
+        if (return_val == 2)
+            launch_env(*env_vars);
+    } else if (is_command("unsetenv", input))
         return_val = launch_unsetenv(env_vars, input);
     return (return_val);
 }

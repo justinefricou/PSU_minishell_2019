@@ -9,11 +9,23 @@
 
 int launch_unsetenv(env_var **env_vars, char *input)
 {
-    char *name = NULL;
-    int length = 0;
+    int return_val = 1;
 
     input += 8;
     for (; is_separator(*input); input++);
+    if (*input == 0) {
+        write(2, "unsetenv: Too few arguments.\n", 29);
+        return (0);
+    }
+    return_val = my_unsetenv(env_vars, input);
+    return (return_val);
+}
+
+int my_unsetenv(env_var **env_vars, char *input)
+{
+    char *name = NULL;
+    int length = 0;
+
     while (*input != 0) {
         length = 0;
         for (; !is_separator(input[length]) && input[length] != 0; length++);
@@ -28,7 +40,7 @@ int launch_unsetenv(env_var **env_vars, char *input)
         input++;
         for (; is_separator(*input); input++);
     }
-    return (0);
+    return (1);
 }
 
 void remove_variable_from_env(char *name, env_var **env_vars)
