@@ -58,37 +58,3 @@ int get_next_arg(char **arg, char *input, int *i)
     (*arg)[len] = 0;
     return (0);
 }
-
-int get_path_program(char **args, env_var *env_vars)
-{
-    char *path_program = NULL;
-
-    if (access(args[0], F_OK) == 0)
-        path_program = args[0];
-    else if (!find_program_in_path(args[0], &path_program, env_vars)) {
-        my_put_str(args[0], 2);
-        write(2, ": Command not found.\n", 21);
-        return (0);
-    }
-    if (!check_access(path_program, args[0]))
-        return (0);
-    if (args[0] == path_program && *path_program != '.') {
-        my_put_str(args[0], 2);
-        write(2, ": Command not found.\n", 21);
-        return (0);
-    } else if (args[0] != path_program) {
-        free(args[0]);
-        args[0] = path_program;
-    }
-    return (1);
-}
-
-int check_access(char *path_program, char *program_name)
-{
-    if (access(path_program, X_OK) != 0) {
-        my_put_str(program_name, 2);
-        write(2, ": Permission denied.\n", 21);
-        return (0);
-    }
-    return (1);
-}

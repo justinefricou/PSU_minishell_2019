@@ -18,6 +18,7 @@ SRC	=	source/main.c\
 		source/launch_unsetenv.c\
 		source/handle_non_builtins.c\
 		source/get_args_program.c\
+		source/get_argv0.c\
 		source/go_through_path.c\
 		source/execute_program.c\
 		source/my_tools.c
