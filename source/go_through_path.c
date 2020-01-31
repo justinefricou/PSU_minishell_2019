@@ -7,7 +7,7 @@
 
 #include "mysh.h"
 
-int find_program_in_path(char *argv0, char **path_program, env_var *env_vars) //
+int find_program_in_path(char *argv0, char **path_program, env_var *env_vars)
 {
     char *path = NULL;
     char *next_path = NULL;
