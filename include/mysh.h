@@ -83,6 +83,7 @@ int get_args(char ***args, char *input, env_var *env_vars);
 int get_nbr_of_args(char *input);
 int get_next_arg(char **arg, char *input, int *i);
 int get_path_program(char **args, env_var *env_vars);
+int check_access(char *path_program, char *program_name);
 
 // go_through_path.c
 int find_program_in_path(char *argv0, char **path_program, env_var *env_vars);
@@ -96,7 +97,6 @@ int execute_in_child(char **args, char **env_array);
 int wait_for_child(int child_pid, char **args);
 void print_error_message_wstatus(int wstatus);
 void print_error_message_errno(char *program_name);
-
 
 // my_tools.c
 int my_strcmp(char *s1, char *s2);
