@@ -10,14 +10,15 @@
 int get_args(char ***args, char *input, env_var *env_vars)
 {
     int nbr_of_args = 0;
-    int i = 0;
 
     nbr_of_args = get_nbr_of_args(input);
+    if (nbr_of_args < 0)
+        return (0);
     *args = malloc(sizeof(char *) * (nbr_of_args + 1));
     if (*args == NULL)
         return (84);
     for (int j = 0; j < nbr_of_args; j++) {
-        if (get_next_arg(&((*args)[j]), input, &i) == 84) {
+        if (get_next_arg(&((*args)[j]), &input) == 84) {
             free_string_array(*args, j - 1);
             return (84);
         }
@@ -33,28 +34,55 @@ int get_args(char ***args, char *input, env_var *env_vars)
 int get_nbr_of_args(char *input)
 {
     int nbr_of_args = 0;
+    int len = 0;
 
-    for (int i = 0; input[i] != 0; nbr_of_args++) {
-        for (; is_separator(input[i]); i++);
-        for (; !is_separator(input[i]) && input[i] != 0; i++);
-        for (; is_separator(input[i]); i++);
+    for (; *input != 0; nbr_of_args++) {
+        for (; is_separator(*input); input++);
+        if (handle_quotes(&input, &len) == -1)
+            return (-1);
+        for (; !is_separator(*input) && *input != 0; input++);
+        for (; is_separator(*input); input++);
     }
     return (nbr_of_args);
 }
 
-int get_next_arg(char **arg, char *input, int *i)
+int handle_quotes(char **input, int *len)
+{
+    if (**input == '"' || **input == '\'') {
+        while ((*input)[*len + 1] != **input && (*input)[*len + 1] != 0)
+            (*len)++;
+        (*input)++;
+        if ((*input)[*len] == 0) {
+            write(2, "Unmatched '", 11);
+            write(2, (*input) - 1, 1);
+            write(2, "'.\n", 3);
+            return (-1);
+        }
+        (*input) += *len;
+        return (1);
+    }
+    return (0);
+}
+
+int get_next_arg(char **arg, char **input)
 {
     int len = 0;
-    int i_s = *i;
+    int quotes = 0;
 
-    for (; is_separator(input[i_s]); i_s++, (*i)++);
-    for (; !is_separator(input[i_s + len]) && input[i_s + len] != 0; (*i)++)
-        len++;
+    for (; is_separator(**input); (*input)++);
+    if (**input == '"' || **input == '\'') {
+        for (; (*input)[len + 1] != **input && (*input)[len + 1] != 0; len++);
+        (*input)++;
+        quotes = 1;
+    } else
+        for (; !is_separator((*input)[len]) && (*input)[len] != 0; len++);
     *arg = malloc(sizeof(char) * (len + 1));
-    if (arg == NULL)
+    if (*arg == NULL)
         return (84);
-    for (int j = 0; j < len; j++)
-        (*arg)[j] = input[i_s + j];
+    for (int i = 0; i < len; i++, (*input)++)
+        (*arg)[i] = **input;
     (*arg)[len] = 0;
-    return (0);
+    if (quotes)
+        (*input) += 2;
+    return (1);
 }

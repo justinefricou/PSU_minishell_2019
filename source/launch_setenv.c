@@ -36,7 +36,7 @@ int get_var_name_and_value_from_input(char **name, char **value, char *input)
     for (; is_separator(*input); input++);
     return_val = get_var_value_from_input(value, &input);
     for (; is_separator(*input); input++);
-    if (*input != 0) {
+    if (return_val != 0 && *input != 0) {
         write(2, "setenv: Too many arguments.\n", 28);
         return_val = 0;
     }
@@ -62,14 +62,14 @@ int get_var_name_from_input(char **name, char **input)
 int get_var_value_from_input(char **value, char **input)
 {
     int len = 0;
+    int quotes = 0;
+    char *cp_input = *input;
 
     if (**input == '"' || **input == '\'') {
-        for (; (*input)[len + 1] != **input && (*input)[len + 1] != 0; len++);
+        quotes = handle_quotes(&cp_input, &len);
         (*input)++;
-        if ((*input)[len] == 0) {
-            write(2, "Unmatched '\"'\n", 14);
+        if (quotes == -1)
             return (0);
-        }
     } else
         for (; !is_separator((*input)[len]) && (*input)[len] != 0; len++);
     *value = malloc(sizeof(char) * (len + 1));
@@ -78,6 +78,8 @@ int get_var_value_from_input(char **value, char **input)
     for (int i = 0; i < len; i++, (*input)++)
         (*value)[i] = **input;
     (*value)[len] = 0;
+    if (quotes)
+        (*input) += 2;
     return (1);
 }
 

@@ -81,7 +81,8 @@ void free_string_array(char **string_arr, int last_string);
 // get_args_program.c
 int get_args(char ***args, char *input, env_var *env_vars);
 int get_nbr_of_args(char *input);
-int get_next_arg(char **arg, char *input, int *i);
+int handle_quotes(char **input, int *len);
+int get_next_arg(char **arg, char **input);
 
 // get_argv0.c
 int get_path_program(char **args, env_var *env_vars);
