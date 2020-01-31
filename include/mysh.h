@@ -12,7 +12,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <signal.h>
+#include <string.h>
 #include <sys/wait.h>
+#include <errno.h>
 
 typedef struct env_var env_var;
 struct env_var {
@@ -90,10 +92,15 @@ int my_strcat(char *str1, char *str2, char **final_str);
 
 // execute_program.c
 int execute_program(char **args, char **env_array);
+int execute_in_child(char **args, char **env_array);
+int wait_for_child(int child_pid, char **args);
+void print_error_message_wstatus(int wstatus);
+void print_error_message_errno(char *program_name);
+
 
 // my_tools.c
 int my_strcmp(char *s1, char *s2);
-void my_put_str(char *str);
+void my_put_str(char *str, int fd);
 int is_separator(char c);
 int is_int(char *str);
 int my_get_nbr(char *s);

@@ -25,9 +25,9 @@ int handle_env_related_builtins(char *input, env_var **env_vars)
 void launch_env(env_var *env_vars)
 {
     while (env_vars != NULL) {
-        my_put_str(env_vars->name);
+        my_put_str(env_vars->name, 1);
         write(1, "=", 1);
-        my_put_str(env_vars->value);
+        my_put_str(env_vars->value, 1);
         write(1, "\n", 1);
         env_vars = env_vars->next;
     }

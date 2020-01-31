@@ -66,12 +66,12 @@ int get_path_program(char **args, env_var *env_vars)
     if (access(args[0], F_OK) == 0)
         path_program = args[0];
     else if (!find_program_in_path(args[0], &path_program, env_vars)) {
-        my_put_str(args[0]);
+        my_put_str(args[0], 2);
         write(2, ": Command not found.\n", 21);
         return (0);
     }
     if (access(path_program, X_OK) != 0) {
-        my_put_str(args[0]);
+        my_put_str(args[0], 2);
         write(2, ": Permission denied.\n", 21);
         return (0);
     }

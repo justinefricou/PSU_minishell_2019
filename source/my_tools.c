@@ -7,12 +7,12 @@
 
 #include "mysh.h"
 
-void my_put_str(char *str)
+void my_put_str(char *str, int fd)
 {
     int length = 0;
 
     for (; str[length] != 0; length++);
-    write(1, str, length);
+    write(fd, str, length);
 }
 
 int my_strcmp(char *s1, char *s2)
