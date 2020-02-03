@@ -54,7 +54,6 @@ void update_working_dir(char *current_dir, char **prev_dir, int return_val);
 // launch_cd_with_path.c
 int launch_cd_with_path(char *input);
 int get_path(char **path, char *input);
-void display_error_message_chdir(void);
 
 // handle_env_related_builtins.c
 int handle_env_related_builtins(char *input, env_var **env_vars);

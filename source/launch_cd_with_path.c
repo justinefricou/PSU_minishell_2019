@@ -17,7 +17,7 @@ int launch_cd_with_path(char *input)
     return_chdir = chdir(path);
     free(path);
     if (return_chdir != 0) {
-        display_error_message_chdir();
+        print_error_message_errno("cd");
         return (0);
     }
     return (1);
@@ -35,9 +35,4 @@ int get_path(char **path, char *input)
         (*path)[i] = input[i];
     (*path)[length] = 0;
     return (0);
-}
-
-void display_error_message_chdir(void)
-{
-    // strerror or perror
 }
